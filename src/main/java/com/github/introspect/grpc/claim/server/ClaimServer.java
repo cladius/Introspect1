@@ -1,17 +1,19 @@
-package com.github.simplesteph.grpc.calculator.server;
+package com.github.introspect.grpc.claim.server;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.protobuf.services.ProtoReflectionService;
 
+import java.io.File;
 import java.io.IOException;
 
-public class CalculatorServer {
+public class ClaimServer {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Server server = ServerBuilder.forPort(50052)
-                .addService(new CalculatorServiceImpl())
-                .addService(ProtoReflectionService.newInstance()) // reflection
+        System.out.println("Let's begin introspecting on the server side.");
+
+        // plaintext server
+        Server server = ServerBuilder.forPort(50051)
+                .addService(new ClaimServiceImpl())
                 .build();
 
         server.start();
@@ -24,4 +26,5 @@ public class CalculatorServer {
 
         server.awaitTermination();
     }
+
 }
