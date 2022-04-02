@@ -12,8 +12,8 @@ public class ClaimServiceImpl extends ClaimServiceGrpc.ClaimServiceImplBase {
     //Holds the claims data.
     Map<Integer, Claim> claims;
 
-    //Set up test data
     public ClaimServiceImpl() {
+        //Set up test data
         claims = new HashMap<>();
 
         claims.put(1, Claim.newBuilder()
@@ -51,7 +51,7 @@ public class ClaimServiceImpl extends ClaimServiceGrpc.ClaimServiceImplBase {
     @Override
     public void updateClaim(Claim request, StreamObserver<Claim> responseObserver) {
         // Log the incoming request
-        System.out.println("Update request received for: " + request);
+        System.out.println("Update request received for claim (id) = " + request.getId());
 
         //Update the claim in the 'DB'
         claims.put(request.getId(), request);
@@ -77,7 +77,7 @@ public class ClaimServiceImpl extends ClaimServiceGrpc.ClaimServiceImplBase {
     @Override
     public void deleteClaim(ClaimId request, StreamObserver<Claim> responseObserver) {
         // Log the incoming request
-        System.out.println("Delete request received for: " + request);
+        System.out.println("Delete request received for id = " + request.getId());
 
         //Delete the claim from the 'DB'
         Claim deletedClaim = claims.remove(request.getId());
@@ -94,6 +94,7 @@ public class ClaimServiceImpl extends ClaimServiceGrpc.ClaimServiceImplBase {
         else
             response = Claim.newBuilder()
                     .setId(0)
+                    .setStatus("Not Found")
                     .build();
 
         // Send the response

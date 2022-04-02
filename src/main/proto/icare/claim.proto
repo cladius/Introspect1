@@ -43,10 +43,4 @@ service ClaimService {
      */
     rpc GetClaims(stream ClaimId) returns (stream Claim) {};
 
-    // Unary
-//    rpc Greet(GreetRequest) returns (GreetResponse) {};
-
-    // BiDi Streaming
-  //  rpc GreetEveryone(stream GreetEveryoneRequest) returns (stream GreetEveryoneResponse) {};
-
 }
