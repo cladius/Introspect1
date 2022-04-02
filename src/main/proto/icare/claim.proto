@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package greet;
+
+option java_package = "com.proto.claim";
+option java_multiple_files = true;
+
+message Claim {
+    int32 id = 1;
+    string customerName = 2;
+    int32 customerId = 3;
+    string status = 4;
+    /*
+        Can be expanded to include more fields like:
+            claimedAmount
+            settlementAmount
+            claimedOnDate
+            settledOnDate
+     */
+}
+
+message ClaimId{
+    int32 id = 1;
+}
+
+service ClaimService {
+    /*
+     * Unary call.
+     * Updates a claim based on incoming request
+     * and returns the updated claim.
+     */
+    rpc UpdateClaim(Claim) returns (Claim) {};
+
+    /*
+     * Unary call.
+     * Deletes a claim based on incoming claimId.
+     */
+    rpc DeleteClaim(ClaimId) returns (Claim) {};
+
+    /*
+     * Bi-Directional call.
+     * Returns claims based on the incoming claimIds.
+     */
+    rpc GetClaims(stream ClaimId) returns (stream Claim) {};
+
+    // Unary
+//    rpc Greet(GreetRequest) returns (GreetResponse) {};
+
+    // BiDi Streaming
+  //  rpc GreetEveryone(stream GreetEveryoneRequest) returns (stream GreetEveryoneResponse) {};
+
+}
