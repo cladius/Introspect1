@@ -2,12 +2,8 @@ package com.github.simplesteph.grpc.claim.client;
 
 import com.proto.claim.*;
 import io.grpc.*;
-import io.grpc.stub.StreamObserver;
 
 import javax.net.ssl.SSLException;
-import java.util.Arrays;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class ClaimClient {
 
@@ -24,7 +20,9 @@ public class ClaimClient {
                 .build();
 
 
-        doUnaryCall(channel);
+        doUpdateCall(channel);
+
+        doDeleteCall(channel);
 
 //        doBiDiStreamingCall(channel);
 
@@ -33,7 +31,7 @@ public class ClaimClient {
 
     }
 
-    private void doUnaryCall(ManagedChannel channel) {
+    private void doUpdateCall(ManagedChannel channel) {
         // created a claim service client (blocking - synchronous)
         ClaimServiceGrpc.ClaimServiceBlockingStub claimClient = ClaimServiceGrpc.newBlockingStub(channel);
 
@@ -41,15 +39,31 @@ public class ClaimClient {
         // created a protocol buffer claiming message
         Claim request = Claim.newBuilder()
                 .setCustomerId(3)
-                .setCustomerName("John Smith")
-                .setStatus("Open")
+                .setCustomerName("Bruce Wayne")
+                .setStatus("Closed")
                 .setId(1)
                 .build();
 
         // call the RPC and get back a ClaimResponse (protocol buffers)
         Claim response = claimClient.updateClaim(request);
 
-        System.out.println(response);
+        System.out.println("Updated claim is: " + response);
+    }
+
+    private void doDeleteCall(ManagedChannel channel) {
+        // created a claim service client (blocking - synchronous)
+        ClaimServiceGrpc.ClaimServiceBlockingStub claimClient = ClaimServiceGrpc.newBlockingStub(channel);
+
+        // Unary
+        // created a protocol buffer claiming message
+        ClaimId request = ClaimId.newBuilder()
+                .setId(2)
+                .build();
+
+        // call the RPC and get back a ClaimResponse (protocol buffers)
+        Claim response = claimClient.deleteClaim(request);
+
+        System.out.println("Deleted claim is: " + response);
     }
 
 //    private void doBiDiStreamingCall(ManagedChannel channel) {
